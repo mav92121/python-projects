@@ -3,7 +3,7 @@ class Login:
         self.name=''
         self.passowrd=''
         self.data={}
-
+        
     def login(self):
         name=input("Enter your name ")
         if(name in self.data):
@@ -23,7 +23,7 @@ class Login:
                     if(inpz=='1'):
                         lib.lend_book(self.name)
                     elif(inpz=='2'):
-                        lib.return_book()
+                        lib.return_book(self.name)
                     elif(inpz=='3'):
                         lib.printbooks()
                     elif(inpz=='4'):
@@ -68,10 +68,17 @@ class Library(Login):
         for it in Library.lend:
             print(f"{it} -> {Library.lend[it]}")
 
-    def return_book(self):
+    def return_book(self,name):
         inp=input("Enter the name of the book you want to return ")
-        Library.lend.pop(inp)
-        Library.book.append(inp)
+        if(inp not in Library.lend):
+            print("Incorrect book name")
+            return
+        if(Library.lend[inp]!=name):
+            print(f"book owned by {Library.lend[inp]} you can't return that book")
+            return
+        else:
+            Library.lend.pop(inp)
+            Library.book.append(inp)
         print("Book returned successfully")
     def printbooks(self):
         for it in Library.book:
